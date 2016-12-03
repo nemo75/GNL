@@ -6,12 +6,19 @@
 /*   By: skynet <skynet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 02:18:39 by thbricqu          #+#    #+#             */
-/*   Updated: 2016/12/03 07:29:05 by skynet           ###   ########.fr       */
+/*   Updated: 2016/12/03 18:35:56 by skynet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "libft.h"
+
+static size_t ft_strlchr(char *str,size_t index, char c)
+{
+	while (str[index] != '\0' && str[index] != c)
+		index++;
+	return (str[index] == c ? index  : (size_t)NULL);
+}
 
 int get_next_line(const int fd, char **line)
 {
@@ -23,19 +30,13 @@ int get_next_line(const int fd, char **line)
 		all.ligne = ft_strnew(BUF_SIZE + 1);
 	while ((ret = read(fd, buf, BUF_SIZE)))
 	{
-		buf[ret] = '\0';
 		all.ligne = ft_strjoin(all.ligne, buf);
+		all.len = ft_strlen(all.ligne);
 	}
-	while (all.ligne[all.index])
-	{
-		ft_putchar(all.ligne[all.index++]) ;
-		if (all.ligne[all.index] == '\n')
-			ft_putchar('\n');
-		while (all.ligne[all.index] == '\n')
-			all.index++;
-	}
-	free(all.ligne);
-	if (!(ret = read(fd, buf, BUF_SIZE)))
-		return FALSE;
-	return (TRUE);
+	while (all.ligne[all.index] == '\n' && all.ligne[all.index])
+		all.index++;
+	*line = ft_strsub(all.ligne, all.index, ft_strlchr(all.ligne, all.index, '\n'));
+	all.index = all.index + ft_strlchr(all.ligne, all.index, '\n');
+	printf(" INDEX %zu LEN %zu\n", all.index, all.len - 1);
+	return (all.index == all.len - 1 ? 0 : 1);
 }

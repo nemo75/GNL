@@ -6,7 +6,7 @@
 /*   By: skynet <skynet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 02:23:53 by thbricqu          #+#    #+#             */
-/*   Updated: 2016/12/03 07:26:59 by skynet           ###   ########.fr       */
+/*   Updated: 2016/12/03 18:13:53 by skynet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@
 
 typedef struct				s_line
 {
-	char	*ligne;
-	int		index;
+	char		*ligne;
+	size_t		index;
+	size_t 		len;
 }							t_line;
 
 

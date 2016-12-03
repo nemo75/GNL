@@ -6,7 +6,7 @@
 /*   By: skynet <skynet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 02:36:47 by thbricqu          #+#    #+#             */
-/*   Updated: 2016/12/03 07:30:37 by skynet           ###   ########.fr       */
+/*   Updated: 2016/12/03 18:33:58 by skynet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int argc, char **argv)
 {
 	char 	*line;
 	int		fd;
-
+	int i = 0;
 	line = NULL;
 	if (argc == 2)
 	{
@@ -29,9 +29,12 @@ int	main(int argc, char **argv)
 		}
 		while (get_next_line(fd, &line) == 1)
 		{
-			//ft_putendl(line);
+			ft_putendl(line);
 			if (line)
 				free(line);
+			i++;
+			if (i == 5)
+				break ;
 		}
 		close(fd);
 	}
