@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thbricqu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: skynet <skynet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 02:23:53 by thbricqu          #+#    #+#             */
-/*   Updated: 2016/12/03 02:23:55 by thbricqu         ###   ########.fr       */
+/*   Updated: 2016/12/03 07:26:59 by skynet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 
 typedef struct				s_line
 {
-	char	*all;
-
+	char	*ligne;
+	int		index;
 }							t_line;
 
 

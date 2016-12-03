@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thbricqu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: skynet <skynet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 02:36:47 by thbricqu          #+#    #+#             */
-/*   Updated: 2016/12/03 02:36:51 by thbricqu         ###   ########.fr       */
+/*   Updated: 2016/12/03 07:30:37 by skynet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char **argv)
 		}
 		while (get_next_line(fd, &line) == 1)
 		{
-			ft_putendl(line);
+			//ft_putendl(line);
 			if (line)
 				free(line);
 		}

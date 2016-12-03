@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thbricqu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: skynet <skynet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 02:18:39 by thbricqu          #+#    #+#             */
-/*   Updated: 2016/12/03 02:18:41 by thbricqu         ###   ########.fr       */
+/*   Updated: 2016/12/03 07:29:05 by skynet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,27 @@
 
 int get_next_line(const int fd, char **line)
 {
-	size_t i;
 	char buf[BUF_SIZE + 1];
 	int ret;
-	char *tmp;
-	static t_line current_line = NULL;
-	
-	i = 0;
-	if ((ret = read(fd, buf, BUF_SIZE)))
+	static t_line all;
+	*line = NULL;
+	if (all.ligne == NULL)
+		all.ligne = ft_strnew(BUF_SIZE + 1);
+	while ((ret = read(fd, buf, BUF_SIZE)))
 	{
 		buf[ret] = '\0';
-		printf("%s\n", "passage");
-		*line = ft_strjoin(ft_strdup(current_line.all), buf);
+		all.ligne = ft_strjoin(all.ligne, buf);
 	}
-	else
-		return (FALSE);
+	while (all.ligne[all.index])
+	{
+		ft_putchar(all.ligne[all.index++]) ;
+		if (all.ligne[all.index] == '\n')
+			ft_putchar('\n');
+		while (all.ligne[all.index] == '\n')
+			all.index++;
+	}
+	free(all.ligne);
+	if (!(ret = read(fd, buf, BUF_SIZE)))
+		return FALSE;
 	return (TRUE);
 }
