@@ -21,12 +21,16 @@
 
 # define TRUE 1
 # define FALSE 0
-# define BUF_SIZE 32
+# define BUF_SIZE 6
 
 typedef struct				s_line
 {
-	char	*all;
-
+	// char		*ligne;
+	char		*reste;
+	// char		*test;
+	char		*tmp;
+	size_t		index;
+	size_t 		len;
 }							t_line;
 
 
