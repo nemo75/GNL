@@ -17,7 +17,6 @@ int	main(int argc, char **argv)
 {
 	char 	*line;
 	int		fd;
-	int i = 0;
 	line = NULL;
 	if (argc == 2)
 	{
@@ -29,9 +28,6 @@ int	main(int argc, char **argv)
 		}
 		while (get_next_line(fd, &line) == 1)
 		{
-			if (i == 3)
-				return 0;
-			i++;
 			ft_putendl(line);
 			if (line)
 				free(line);

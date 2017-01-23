@@ -20,17 +20,16 @@
 # include <string.h>
 
 # define TRUE 1
-# define FALSE 0
-# define BUF_SIZE 6
+# define FALSE -1
+# define BUF_SIZE 3
+
 
 typedef struct				s_line
 {
-	// char		*ligne;
-	char		*reste;
-	// char		*test;
-	char		*tmp;
-	size_t		index;
-	size_t 		len;
+	char		*ligne;
+	char		tmp[BUF_SIZE + 1];
+	int 		ret;
+	int 		c;
 }							t_line;
 
 

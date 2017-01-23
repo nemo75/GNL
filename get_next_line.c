@@ -13,94 +13,71 @@
 #include "get_next_line.h"
 #include "libft.h"
 
-static char *ft_strlchr(char *str, char c)
-{
-	int index = 0;
-	char *tmp;
-	tmp = (char *)malloc(sizeof(str + 1));
-	while (str[index] != '\0' && str[index] != c)
-	{
-		tmp[index] = str[index];
-		index++;
-	}
-	return (str[index] == c ? tmp  : NULL);
-}
-
-
-
-
 char	*ft_strpchr(const char *s, int c)
 {
 	while (*s && *s != c)
 		s++;
-	while (*s == c)
+	if (*s == c)
 		s++;
-	return (*s  != c ? (char *)s : NULL);
+	return ((char *)s);
 }
 
-
-
-int get_next_line(const int fd, char **line)
+char *ft_realloc(char *s1, char *s2)
 {
-	int ret;
-	char *ligne = NULL;
-	char *test = NULL;
-	char *tmp = NULL;
-	static t_line all;
-	*line = NULL;
-	if (ligne == NULL || test == NULL || all.reste == NULL || tmp == NULL)
+	char	*str;
+
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	str = ft_strnew(ft_strlen(s1) + ft_strlen(s2));
+	if (str == NULL)
+		return (NULL);
+	str = ft_strcat(str, s1);
+	str = ft_strcat(str, s2);
+	free(s1);
+	return (str);
+}
+
+int		gnl_split(t_line *all, char **line)
+{
+	char *str;
+	str = ft_strdup(ft_strpchr(all->ligne, '\n'));
+	*line = ft_strsub(all->ligne, 0, (ft_strchr(all->ligne, '\n') - &all->ligne[0]));
+	free(all->ligne);
+	all->ligne = str;
+	return TRUE;
+}
+
+int	 get_next_line(const int fd, char **line)
+{
+	static t_line *all;
+	if (all == NULL )
 	{
-		if(all.reste == NULL)
+		all = (t_line*)malloc(sizeof(t_line));
+		all->ligne = ft_strnew(BUF_SIZE);
+	}
+	if (fd < 0)
+		return (FALSE);
+	if (ft_strchr(all->ligne, '\n') != NULL && all->ligne != NULL)
+		return (gnl_split(all, line));
+	else 
+	{
+		while ((all->ret = read(fd, all->tmp, BUF_SIZE)))
 		{
-			// printf("%s\n", "reste");
-			all.reste = ft_strnew(BUF_SIZE );
-		}
-		if(ligne == NULL)
-		{
-			// printf("%s\n","ligne" );
-			ligne = ft_strnew(BUF_SIZE);
-		}
-		if(test == NULL)
-		{
-			// printf("%s\n", "test");
-			test = ft_strnew(BUF_SIZE);
-		}
-		if(tmp == NULL)
-		{
-			 // printf("%s\n", "tmp");
-			tmp = ft_strnew(BUF_SIZE );
+			all->tmp[all->ret] = '\0';
+			all->ligne = ft_realloc(all->ligne, all->tmp);
+			if (all->ret == -1)
+				return (FALSE);
+			if (ft_strchr(all->ligne, '\n') != NULL)
+				return (gnl_split(all, line));
 		}
 	}
-	if (all.reste[0] == '\0')
-	{
-		while ((ret = read(fd, ligne, BUF_SIZE)))
+		if (all->c == 0)
 		{
-			if ((ft_strchr(ligne, '\n')) != NULL)
-			{
-				all.tmp = ligne;
-				test =  ft_strlchr(ligne, '\n');
-				all.reste = ft_strpchr(ligne, '\n');
-				tmp = ft_strjoin(tmp, test);
-				*line = tmp;
-				// free(ligne);
-				// free(tmp);
-				// free(test);
-				return TRUE;
-			}
-			else
-			{
-				tmp = ft_strjoin(tmp, ligne);
-				printf("%s\n",tmp );
-			}
+			*line = all->ligne;
+			all->c = 1;
+			return TRUE;
 		}
-	}
-	else
-	{
-			tmp = ft_strjoin(all.reste, all.tmp);
-			free(all.reste);
-	}
-	*line = tmp;
-	return (1);
+	return FALSE;
 }
 
 
@@ -147,7 +124,58 @@ int get_next_line(const int fd, char **line)
 
 
 
+// if (ligne == NULL || test == NULL || all.reste == NULL || tmp == NULL)
+// 	{
+// 		if(all.reste == NULL)
+// 		{
+// 			// printf("%s\n", "reste");
+// 			all.reste = ft_strnew(BUF_SIZE );
+// 		}
+// 		if(ligne == NULL)
+// 		{
+// 			// printf("%s\n","ligne" );
+// 			ligne = ft_strnew(BUF_SIZE);
+// 		}
+// 		if(test == NULL)
+// 		{
+// 			// printf("%s\n", "test");
+// 			test = ft_strnew(BUF_SIZE);
+// 		}
+// 		if(tmp == NULL)
+// 		{
+// 			 // printf("%s\n", "tmp");
+// 			tmp = ft_strnew(BUF_SIZE );
+// 		}
+// 	}
 
+// 		while ((ret = read(fd, ligne, BUF_SIZE)))
+// 		{
+// 			printf("%s\n",all.reste );
+// 			if (all.reste[0] != '\0')
+// 				{
+// 					printf("%s\n","coucou" );
+// 					tmp = ft_strjoin(all.reste, ligne);
+// 					free(all.reste);
+// 				}
+// 			else if ((ft_strchr(ligne, '\n')) != NULL)
+// 			{
+// 				all.tmp = ligne;
+// 				test =  ft_strlchr(ligne, '\n');
+// 				all.reste = ft_strpchr(ligne, '\n');
+// 				tmp = ft_strjoin(tmp, test);
+// 				*line = tmp;
+// 				 free(ligne);
+// 				 //free(tmp);
+// 				// free(test);
+// 				return TRUE;
+// 			}
+// 			else
+// 			{
+// 				tmp = ft_strjoin(tmp, ligne);
+// 			}
+// 		}
+
+// 	*line = tmp;
 
 
 
